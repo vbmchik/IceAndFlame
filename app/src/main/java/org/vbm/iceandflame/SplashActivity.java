@@ -1,6 +1,7 @@
 package org.vbm.iceandflame;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -26,6 +27,8 @@ public class SplashActivity extends AppCompatActivity {
         if (!Globals.isBackground) {
             Globals.bRead.execute("");
             Globals.isBackground = true;
+        } else if (Globals.bRead.getStatus() == AsyncTask.Status.FINISHED) {
+            toBook();
         }
     }
 

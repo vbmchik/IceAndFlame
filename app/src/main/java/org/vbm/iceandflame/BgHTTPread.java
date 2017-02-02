@@ -22,7 +22,15 @@ public class BgHTTPread extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... strings) {
         bookshelf = new JSONArray();
         getData("books");
-        return getData("characters");
+        getData("characters");
+        while (BooksActivity.Me != null) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return "0";
     }
 
     private void proceedJSON(JSONArray jsonArray, String name) {
@@ -150,14 +158,16 @@ public class BgHTTPread extends AsyncTask<String, Integer, String> {
         }
         //MainActivity.Me.startBooksActivity();
         //MainActivity.Me.textView.setText(s);
-
-        SplashActivity.Me.toBook();
+        if (SplashActivity.Me != null)
+            SplashActivity.Me.toBook();
     }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
         if (BooksActivity.Me != null)
             Toast.makeText(BooksActivity.Me, "Page : " + values[0], Toast.LENGTH_SHORT).show();
+        else if (SplashActivity.Me != null)
+            Toast.makeText(SplashActivity.Me, "Page : " + values[0], Toast.LENGTH_SHORT).show();
     }
 }
 
