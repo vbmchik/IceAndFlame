@@ -19,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSplash() {
         textView = (TextView) findViewById(R.id.outout);
-        BgHTTPread bRead = new BgHTTPread();
-        bRead.execute("");
+        Globals.bRead.execute("");
     }
 
     public void startBooksActivity() {

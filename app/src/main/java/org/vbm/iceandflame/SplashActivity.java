@@ -12,20 +12,21 @@ public class SplashActivity extends AppCompatActivity {
 
     public static SplashActivity Me;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Me = this;
         Globals.databaseAccess = new DatabaseAccess(this, true);
         initSplash();
-
-
     }
 
     private void initSplash() {
         //textView = (TextView) findViewById(R.id.outout);
-        BgHTTPread bRead = new BgHTTPread();
-        bRead.execute("");
+        if (!Globals.isBackground) {
+            Globals.bRead.execute("");
+            Globals.isBackground = true;
+        }
     }
 
     public void toBook() {

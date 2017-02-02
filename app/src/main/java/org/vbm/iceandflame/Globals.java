@@ -5,5 +5,7 @@ package org.vbm.iceandflame;
  */
 
 public class Globals {
+   protected static final BgHTTPread bRead = new BgHTTPread();
    public static DatabaseAccess databaseAccess;
+   protected static boolean isBackground = false;
 }
