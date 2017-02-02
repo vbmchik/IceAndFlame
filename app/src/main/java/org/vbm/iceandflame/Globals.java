@@ -5,4 +5,5 @@ package org.vbm.iceandflame;
  */
 
 public class Globals {
+   public static DatabaseAccess databaseAccess;
 }

@@ -3,27 +3,34 @@ package org.vbm.iceandflame;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
-    public static MainActivity Me;
-    TextView textView;
+/**
+ * Created by vbm on 02/02/2017.
+ */
+
+public class SplashActivity extends AppCompatActivity {
+
+    public static SplashActivity Me;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        Me = this;
         Globals.databaseAccess = new DatabaseAccess(this, true);
         initSplash();
-        Me = this;
+
+
     }
 
     private void initSplash() {
-        textView = (TextView) findViewById(R.id.outout);
+        //textView = (TextView) findViewById(R.id.outout);
         BgHTTPread bRead = new BgHTTPread();
         bRead.execute("");
     }
 
-    public void startBooksActivity() {
-        startActivity(new Intent(this, BooksActivity.class));
+    public void toBook() {
+        Intent intent = new Intent(this, BooksActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
