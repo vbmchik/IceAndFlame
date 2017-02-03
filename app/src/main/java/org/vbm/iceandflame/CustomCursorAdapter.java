@@ -10,14 +10,15 @@ import android.widget.Toast;
 
 /**
  * Created by vbm on 02/02/2017.
+ * For my RecycleView this simple adapter from sqLite cursor
  */
 
-public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.CustomViewHolder> {
+class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.CustomViewHolder> {
 
-    Cursor cursor;
+    private Cursor cursor;
 
 
-    public CustomCursorAdapter() {
+    CustomCursorAdapter() {
         super();
         cursor = Globals.databaseAccess.cursor;
         cursor.moveToFirst();
@@ -26,8 +27,7 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
-        CustomViewHolder viewHolder = new CustomViewHolder(v);
-        return viewHolder;
+        return new CustomViewHolder(v);
     }
 
     @Override
@@ -41,16 +41,15 @@ public class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapte
         return cursor.getCount();
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    class CustomViewHolder extends RecyclerView.ViewHolder {
         TextView bookView;
 
-        public CustomViewHolder(View itemView) {
+        CustomViewHolder(View itemView) {
             super(itemView);
             bookView = (TextView) itemView.findViewById(android.R.id.text1);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     Toast.makeText(BooksActivity.Me, bookView.getText() + " : " + Integer.toString(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
                 }
             });

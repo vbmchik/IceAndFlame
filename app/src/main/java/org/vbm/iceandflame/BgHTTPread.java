@@ -17,7 +17,7 @@ import java.net.URLConnection;
 import java.util.Scanner;
 
 /**
- * Created by vbm on 01/02/2017. AsyncTask read from REST and write t sqlite
+ * Created by vbm on 01/02/2017. AsyncTask read from REST and write  sqlite
  */
 
 class BgHTTPread extends AsyncTask<String, Integer, Integer> {
