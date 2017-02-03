@@ -22,6 +22,12 @@ public class SplashActivity extends AppCompatActivity {
         initSplash();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Me = null;
+    }
+
     private void initSplash() {
         //textView = (TextView) findViewById(R.id.outout);
         if (!Globals.isBackground) {
