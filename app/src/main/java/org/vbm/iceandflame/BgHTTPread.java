@@ -156,9 +156,7 @@ public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
             e.printStackTrace();
             return (-1);
         }
-
         publishProgress(bookshelf.length());
-
         return result;
     }
 
