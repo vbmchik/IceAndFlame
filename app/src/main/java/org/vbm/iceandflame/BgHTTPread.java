@@ -22,17 +22,18 @@ import java.util.Scanner;
 
 public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
     private static final String BASE_URL = "http://anapioficeandfire.com/api/";
-    protected JSONArray bookshelf;
+    //protected JSONArray bookshelf;
 
     @Override
     protected Integer doInBackground(String... strings) {
         int res = 0;
 
         Long t1 = System.currentTimeMillis();
-        bookshelf = new JSONArray();
+        //bookshelf = new JSONArray();
         try {
             res = getData("books");
             if (res != -1) res = getData("characters");
+            if (res == 0) SharedPrefsReadWrite.writeTo();
         } catch (Exception e) {
             e.printStackTrace();
             res = -1;
@@ -120,31 +121,39 @@ public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
 
     private Integer getData(String... strings) {
         Integer result = 0;
+        int q = 0;
         try {
             for (int i = 1; i > -1; ++i) {
                 JSONArray tempJSON;
                 String tempS = "";
                 URL url = new URL(BASE_URL + strings[0] + "/?page=" + i + "&pageSize=50");
                 URLConnection con = url.openConnection();
+                //Tue, 15 Nov 1994 08:12:31 GMT
+                con.setRequestProperty("If-Modified-Since", SharedPrefsReadWrite.readFrom());
+                //con.setRequestProperty("If-Modified-Since", "Fri, 03 Feb 2017 08:12:31 GMT" );
+                System.out.println(SharedPrefsReadWrite.readFrom());
                 con.setConnectTimeout(1000);
-                con.setReadTimeout(1000);
+                con.setReadTimeout(3000);
                 BufferedReader stream = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 if (stream == null) return (-1);
                 Scanner s = new Scanner(stream);
-                do {
+                while (s.hasNext()) {
                     tempS += s.nextLine();
-                } while (s.hasNext());
-                if (tempS.length() < 3) {
-                    s.close();
-                    i = -1;
-                    break;
                 }
+                s.close();
+                if (tempS.length() < 3)
+                    if (i == 1)
+                        return -2;
+                    else {
+                        i = -1;
+                        break;
+                    }
+
                 tempJSON = new JSONArray(tempS);
                 proceedJSON(tempJSON, strings[0]);
-                for (int a = 0; a < tempJSON.length(); ++a)
-                    bookshelf.put(tempJSON.get(a));
-                s.close();
-
+                q += tempJSON.length();
+                /*for (int a = 0; a < tempJSON.length(); ++a)
+                    bookshelf.put(tempJSON.get(a));*/
             }
         } catch (java.io.IOException e) {
             e.printStackTrace();
@@ -156,7 +165,7 @@ public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
             e.printStackTrace();
             return (-1);
         }
-        publishProgress(bookshelf.length());
+        publishProgress(q);
         return result;
     }
 
@@ -168,6 +177,11 @@ public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
                 Toast.makeText(BooksActivity.Me, "Error! of socket", Toast.LENGTH_SHORT).show();
             if (SplashActivity.Me != null)
                 Toast.makeText(SplashActivity.Me, "Network error.\nData was not synchronized!", Toast.LENGTH_SHORT).show();
+        }
+        if (s == -2) {
+            // Exception catch
+            if (SplashActivity.Me != null)
+                Toast.makeText(SplashActivity.Me, "No data need to be synchronized!", Toast.LENGTH_SHORT).show();
         }
         //MainActivity.Me.startBooksActivity();
         //MainActivity.Me.textView.setText(s);
