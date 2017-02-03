@@ -17,16 +17,16 @@ import java.net.URLConnection;
 import java.util.Scanner;
 
 /**
- * Created by vbm on 01/02/2017.
+ * Created by vbm on 01/02/2017. AsyncTask read from REST and write t sqlite
  */
 
-public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
+class BgHTTPread extends AsyncTask<String, Integer, Integer> {
     private static final String BASE_URL = "http://anapioficeandfire.com/api/";
     //protected JSONArray bookshelf;
 
     @Override
     protected Integer doInBackground(String... strings) {
-        int res = 0;
+        int res;
 
         Long t1 = System.currentTimeMillis();
         //bookshelf = new JSONArray();
@@ -135,17 +135,18 @@ public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
                 con.setConnectTimeout(1000);
                 con.setReadTimeout(3000);
                 BufferedReader stream = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                if (stream == null) return (-1);
                 Scanner s = new Scanner(stream);
                 while (s.hasNext()) {
                     tempS += s.nextLine();
                 }
+
                 s.close();
+
                 if (tempS.length() < 3)
                     if (i == 1)
                         return -2;
                     else {
-                        i = -1;
+                        //i = -1;
                         break;
                     }
 
