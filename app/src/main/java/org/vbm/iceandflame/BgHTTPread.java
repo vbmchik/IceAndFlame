@@ -166,7 +166,10 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
             e.printStackTrace();
             return (-1);
         }
-        publishProgress(q);
+        if (strings[0].equals("books"))
+            publishProgress(1);
+        else
+            publishProgress(2);
         return result;
     }
 
@@ -192,10 +195,21 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
 
     @Override
     protected void onProgressUpdate(Integer... values) {
-        if (BooksActivity.Me != null)
-            Toast.makeText(BooksActivity.Me, "Page : " + values[0], Toast.LENGTH_SHORT).show();
-        else if (SplashActivity.Me != null)
-            Toast.makeText(SplashActivity.Me, "Page : " + values[0], Toast.LENGTH_SHORT).show();
+        String msg;
+        if (SplashActivity.Me != null) {
+            switch (values[0]) {
+                case 1:
+                    msg = "Synchronized books...";
+                    break;
+                case 2:
+                    msg = "Synchronized characters...";
+                    break;
+                default:
+                    msg = "Syncronized something...";
+                    break;
+            }
+            Toast.makeText(SplashActivity.Me, msg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean isNetworkAvailable() {
