@@ -27,18 +27,24 @@ public class BgHTTPread extends AsyncTask<String, Integer, Integer> {
     @Override
     protected Integer doInBackground(String... strings) {
         int res = 0;
+
+        Long t1 = System.currentTimeMillis();
         bookshelf = new JSONArray();
         try {
             res = getData("books");
-            if (res == -1) return -1;
-            res = getData("characters");
-            if (res == -1) return -1;
+            if (res != -1) res = getData("characters");
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
+            res = -1;
         }
-
-        return 0;
+        while (System.currentTimeMillis() - t1 < 3000) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
     }
 
     private void proceedJSON(JSONArray jsonArray, String name) {
