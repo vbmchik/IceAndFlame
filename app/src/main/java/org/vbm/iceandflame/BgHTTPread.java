@@ -1,8 +1,6 @@
 package org.vbm.iceandflame;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -23,9 +21,14 @@ import java.util.Scanner;
 class BgHTTPread extends AsyncTask<String, Integer, Integer> {
     private static final String BASE_URL = "http://anapioficeandfire.com/api/";
     //protected JSONArray bookshelf;
+    private Context context;
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
     @Override
     protected Integer doInBackground(String... strings) {
+        if (context == null) return -3;
         int res;
 
         Long t1 = System.currentTimeMillis();
@@ -33,7 +36,7 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
         try {
             res = getData("books");
             if (res != -1) res = getData("characters");
-            if (res == 0) SharedPrefsReadWrite.writeTo();
+            if (res == 0) SharedPrefsReadWrite.writeTo(context);
         } catch (Exception e) {
             e.printStackTrace();
             res = -1;
@@ -68,7 +71,7 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
             try {
                 query += i > 0 ? ",\n( " : "( ";
                 JSONObject temp = jsonArray.getJSONObject(i);
-                query += "'" + temp.getString("url").replace("http://anapioficeandfire.com/api/" + "books" + "/", "") + "', ";
+                query += "'" + temp.getString("url").replace(BASE_URL + "books" + "/", "") + "', ";
                 query += "\"" + temp.getString("name").replace("\"", "'") + "\", ";
                 query += "'" + temp.getString("released") + "', ";
                 query += "'" + makeString(temp.getJSONArray("characters"), "characters") + "' ";
@@ -90,7 +93,7 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
             try {
                 query += i > 0 ? ",\n( " : "( ";
                 JSONObject temp = jsonArray.getJSONObject(i);
-                query += "'" + temp.getString("url").replace("http://anapioficeandfire.com/api/" + "characters" + "/", "") + "', ";
+                query += "'" + temp.getString("url").replace(BASE_URL + "characters" + "/", "") + "', ";
                 query += "\"" + temp.getString("name") + "\", ";
                 query += "\"" + makeString(temp.getJSONArray("aliases"), "characters").replace("\"", "'") + "\" ";
                 query += ")";
@@ -109,7 +112,7 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
             for (int i = 0; i < jsonArray.length(); ++i) {
                 if (i > 0) chars += ", ";
                 String s = jsonArray.getString(i);
-                chars += s.replace("http://anapioficeandfire.com/api/" + key + "/", "");
+                chars += s.replace(BASE_URL + key + "/", "");
             }
             //chars += " ]";
         } catch (JSONException e) {
@@ -129,9 +132,8 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
                 URL url = new URL(BASE_URL + strings[0] + "/?page=" + i + "&pageSize=50");
                 URLConnection con = url.openConnection();
                 //Tue, 15 Nov 1994 08:12:31 GMT
-                con.setRequestProperty("If-Modified-Since", SharedPrefsReadWrite.readFrom());
+                con.setRequestProperty("If-Modified-Since", SharedPrefsReadWrite.readFrom(context));
                 //con.setRequestProperty("If-Modified-Since", "Fri, 03 Feb 2017 08:12:31 GMT" );
-                System.out.println(SharedPrefsReadWrite.readFrom());
                 con.setConnectTimeout(1000);
                 con.setReadTimeout(3000);
                 BufferedReader stream = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -177,26 +179,24 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
     protected void onPostExecute(Integer s) {
         if (s == -1) {
             // Exception catch
-            if (BooksActivity.Me != null)
-                Toast.makeText(BooksActivity.Me, "Error! of socket", Toast.LENGTH_SHORT).show();
-            if (SplashActivity.Me != null)
-                Toast.makeText(SplashActivity.Me, "Network error.\nData was not synchronized!", Toast.LENGTH_SHORT).show();
+            if (context != null)
+                Toast.makeText(context, "Network error.\nData was not synchronized!", Toast.LENGTH_SHORT).show();
         }
         if (s == -2) {
             // Exception catch
-            if (SplashActivity.Me != null)
-                Toast.makeText(SplashActivity.Me, "No data need to be synchronized!", Toast.LENGTH_SHORT).show();
+            if (context != null)
+                Toast.makeText(context, "No data need to be synchronized!", Toast.LENGTH_SHORT).show();
         }
         //MainActivity.Me.startBooksActivity();
         //MainActivity.Me.textView.setText(s);
-        if (SplashActivity.Me != null)
-            SplashActivity.Me.toBook();
+        if (context != null)
+            ((SplashActivity) context).toBook();
     }
 
     @Override
     protected void onProgressUpdate(Integer... values) {
         String msg;
-        if (SplashActivity.Me != null) {
+        if (context != null) {
             switch (values[0]) {
                 case 1:
                     msg = "Synchronized books...";
@@ -208,15 +208,9 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
                     msg = "Syncronized something...";
                     break;
             }
-            Toast.makeText(SplashActivity.Me, msg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) SplashActivity.Me.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null;
-    }
 }
 

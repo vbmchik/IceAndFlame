@@ -2,10 +2,11 @@ package org.vbm.iceandflame;
 
 /**
  * Created by vbm on 02/02/2017.
+ * Static and constant data
  */
 
-public class Globals {
-   protected static final BgHTTPread bRead = new BgHTTPread();
+class Globals {
    public static DatabaseAccess databaseAccess;
-   protected static boolean isBackground = false;
+   static BgHTTPread bRead = new BgHTTPread();
+   static boolean isBackground = false;
 }

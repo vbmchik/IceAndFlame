@@ -1,5 +1,6 @@
 package org.vbm.iceandflame;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,9 +17,9 @@ import android.widget.Toast;
 class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.CustomViewHolder> {
 
     private Cursor cursor;
+    private Context activityContext;
 
-
-    CustomCursorAdapter() {
+    CustomCursorAdapter(Context context) {
         super();
         cursor = Globals.databaseAccess.cursor;
         cursor.moveToFirst();
@@ -42,7 +43,7 @@ class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.Custo
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView bookView;
+        final TextView bookView;
 
         CustomViewHolder(View itemView) {
             super(itemView);
@@ -50,7 +51,7 @@ class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.Custo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(BooksActivity.Me, bookView.getText() + " : " + Integer.toString(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activityContext, bookView.getText() + " : " + Integer.toString(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
                 }
             });
         }

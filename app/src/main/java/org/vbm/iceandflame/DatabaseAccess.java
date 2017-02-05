@@ -7,12 +7,13 @@ import android.widget.Toast;
 
 /**
  * Created by vbm on 25/03/15.
+ * Database working class
  */
 public class DatabaseAccess {
 
-    public static SQLiteDatabase dBase;
-    protected Cursor cursor;
-    String name;
+    private static SQLiteDatabase dBase;
+    final private String name;
+    Cursor cursor;
 
     public DatabaseAccess(Context context, boolean createFlag) {
         this.name = "iceandflame";
@@ -24,7 +25,7 @@ public class DatabaseAccess {
         dBase.execSQL(query);
     }
 
-    public boolean createDataBase(Context context) {
+    private boolean createDataBase(Context context) {
         try {
             if (dBase != null) dBase.close();
             dBase = context.openOrCreateDatabase(name, Context.MODE_PRIVATE, null);

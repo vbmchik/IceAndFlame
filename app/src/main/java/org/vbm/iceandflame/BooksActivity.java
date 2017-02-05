@@ -6,13 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 public class BooksActivity extends AppCompatActivity {
-    public static BooksActivity Me;
+    //public static BooksActivity Me;
     RecyclerView booksView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Me = this;
+        // Me = this;
+        Globals.bRead = null;
         setContentView(R.layout.activity_books);
         initControls();
     }
@@ -23,14 +24,9 @@ public class BooksActivity extends AppCompatActivity {
         Globals.databaseAccess.initCursor("select name from books order by _id");
         LinearLayoutManager lm = new LinearLayoutManager(this);
         booksView.setLayoutManager(lm);
-        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter();
+        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this);
         booksView.setAdapter(customCursorAdapter);
         //RecyclerView.Adapter mAdapter = new RecyclerView.Adapter<>();
     }
 
-    public void notifyRecycler() {
-        synchronized (booksView) {
-            booksView.notify();
-        }
-    }
 }
