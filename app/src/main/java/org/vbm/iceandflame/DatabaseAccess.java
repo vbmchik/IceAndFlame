@@ -25,6 +25,14 @@ public class DatabaseAccess {
         dBase.execSQL(query);
     }
 
+    public Cursor getGursor(String query) {
+        Cursor cur;
+        cur = dBase.rawQuery(query, null);
+        cur.moveToFirst();
+        return cur;
+    }
+
+
     private boolean createDataBase(Context context) {
         try {
             if (dBase != null) dBase.close();
@@ -33,7 +41,7 @@ public class DatabaseAccess {
    /* Create a Table in the Database. */
             dBase.execSQL("CREATE TABLE IF NOT EXISTS "
                     + "books"
-                    + " ( _id VRCHAR(15) primary key, name VARCHAR(100), date DATETIME, characters VARCHAR )");
+                    + " ( _id INT primary key, name VARCHAR(100), date DATETIME, characters VARCHAR )");
             dBase.execSQL("CREATE TABLE IF NOT EXISTS "
                     + "characters"
                     + " ( _id INT primary key, name VARCHAR(25), aliases VARCHAR )");

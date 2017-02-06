@@ -19,11 +19,21 @@ class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.Custo
     private Cursor cursor;
     private Context activityContext;
 
+
     CustomCursorAdapter(Context context) {
         super();
         cursor = Globals.databaseAccess.cursor;
         cursor.moveToFirst();
     }
+
+    CustomCursorAdapter(Context context, Cursor cursor) {
+        super();
+        this.cursor = cursor;
+        activityContext = context;
+        cursor.moveToFirst();
+    }
+
+
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,16 +44,18 @@ class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.Custo
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         cursor.moveToPosition(position);
-        holder.bookView.setText(cursor.getString(0));
+        holder.bookView.setText(cursor.getInt(0) + " " + cursor.getString(1));
+
     }
 
     @Override
     public int getItemCount() {
+
         return cursor.getCount();
     }
 
     class CustomViewHolder extends RecyclerView.ViewHolder {
-        final TextView bookView;
+        TextView bookView;
 
         CustomViewHolder(View itemView) {
             super(itemView);
@@ -51,7 +63,7 @@ class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.Custo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(activityContext, bookView.getText() + " : " + Integer.toString(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activityContext, "Number : " + Integer.toString(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
                 }
             });
         }

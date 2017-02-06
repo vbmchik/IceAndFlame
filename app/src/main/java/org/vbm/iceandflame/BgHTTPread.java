@@ -110,9 +110,9 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
         try {
             //chars += "[ ";
             for (int i = 0; i < jsonArray.length(); ++i) {
-                if (i > 0) chars += ", ";
                 String s = jsonArray.getString(i);
-                chars += s.replace(BASE_URL + key + "/", "");
+                chars += "[" + s.replace(BASE_URL + key + "/", "") + "]";
+                chars += ", ";
             }
             //chars += " ]";
         } catch (JSONException e) {

@@ -42,9 +42,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void toBook() {
-        Intent intent = new Intent(this, BooksActivity.class);
+        Intent intent = new Intent(this, BookTabActivity.class);
         startActivity(intent);
-        finish();
         finish();
     }
 }

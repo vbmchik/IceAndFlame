@@ -15,10 +15,15 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BooksActivity"></activity>
+        <activity android:name=".BooksActivity" />
+        <activity
+            android:name=".BookTabActivity"
+            android:label="@string/title_activity_book_tab"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
