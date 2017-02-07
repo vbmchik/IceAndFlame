@@ -14,10 +14,13 @@ import java.util.TimeZone;
 
 class SharedPrefsReadWrite {
 
+    public static String data;
+
     public static String readFrom(Context context) {
         String myDate;
         SharedPreferences sharedPreferences = context.getSharedPreferences("oficeandflame", Context.MODE_PRIVATE);
         myDate = sharedPreferences.getString("date", "Tue, 15 Nov 1964 12:45:26 GMT");
+        data = myDate;
         return myDate;
     }
 

@@ -3,13 +3,13 @@ package org.vbm.iceandflame;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * Created by vbm on 06/02/2017.
  */
 
-public class mPagerAdapter extends FragmentPagerAdapter {
+public class mPagerAdapter extends FragmentStatePagerAdapter {
 
 
     public mPagerAdapter(FragmentManager fm) {

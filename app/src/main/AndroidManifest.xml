@@ -23,7 +23,8 @@
         <activity
             android:name=".BookTabActivity"
             android:label="@string/title_activity_book_tab"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CharacterActivity"></activity>
     </application>
 
 </manifest>

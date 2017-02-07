@@ -1,13 +1,14 @@
 package org.vbm.iceandflame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by vbm on 02/02/2017.
@@ -57,15 +58,21 @@ class CustomCursorAdapter extends RecyclerView.Adapter<CustomCursorAdapter.Custo
     class CustomViewHolder extends RecyclerView.ViewHolder {
         TextView bookView;
 
-        CustomViewHolder(View itemView) {
+        CustomViewHolder(final View itemView) {
             super(itemView);
             bookView = (TextView) itemView.findViewById(android.R.id.text1);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(activityContext, "Number : " + Integer.toString(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(activityContext,CharacterActivity.class);
+                    Bundle sets = new Bundle();
+                    sets.putInt(CharacterActivity.KEY,Integer.parseInt(bookView.getText().toString().split(" ")[0]));
+                    intent.putExtras(sets);
+                    activityContext.startActivity(intent,sets);
                 }
             });
         }
+
+
     }
 }

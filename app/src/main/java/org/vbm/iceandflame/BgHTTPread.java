@@ -23,11 +23,16 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
     //protected JSONArray bookshelf;
     private Context context;
 
+
+
+
     public void setContext(Context context) {
         this.context = context;
     }
+
     @Override
     protected Integer doInBackground(String... strings) {
+
         if (context == null) return -3;
         int res;
 
@@ -144,11 +149,10 @@ class BgHTTPread extends AsyncTask<String, Integer, Integer> {
 
                 s.close();
 
-                if (tempS.length() < 3)
+                if (tempS.length() < 3 )
                     if (i == 1)
                         return -2;
                     else {
-                        //i = -1;
                         break;
                     }
 
