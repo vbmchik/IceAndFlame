@@ -2,7 +2,8 @@
 <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/pager"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.v4.view.PagerTitleStrip
         android:id="@+id/pager_title_strip"
@@ -12,8 +13,8 @@
         android:background="#33b5e5"
         android:fadingEdge="horizontal"
         android:overScrollMode="ifContentScrolls"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
         android:splitMotionEvents="true"
         android:textColor="#fff" />
 

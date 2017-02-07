@@ -1,5 +1,6 @@
 package org.vbm.iceandflame;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -19,7 +20,7 @@ public class BookTabActivity extends FragmentActivity {
         setContentView(R.layout.activity_book_tab);
 
         Globals.databaseAccess.initCursor("select name from books order by _id");
-
+        getWindow().setStatusBarColor(Color.BLACK);
         bookShelf = new mPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(bookShelf);
