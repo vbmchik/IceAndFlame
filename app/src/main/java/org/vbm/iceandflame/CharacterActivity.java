@@ -1,11 +1,15 @@
 package org.vbm.iceandflame;
 
+import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 public class CharacterActivity extends AppCompatActivity {
     RelativeLayout linearlayout;
@@ -22,20 +26,22 @@ public class CharacterActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        //linearlayout.setBackground(null);
+        linearlayout.setBackground(null);
         super.onDestroy();
 
     }
 
     void initControls(){
-/*        Random random = new Random();
+        Random random = new Random();
+        int number =  getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? 1 : 5;
+        number += random.nextInt(4);
         linearlayout = (RelativeLayout) findViewById(R.id.activity_character);
         linearlayout.setBackground(null);
-        Drawable gotImage = getDrawable(getResources().getIdentifier("i"+String.valueOf(random.nextInt(3)+1),"drawable","org.vbm.iceandflame" ));
-        gotImage.setAlpha(50);
+        Drawable gotImage = getDrawable(getResources().getIdentifier("i"+String.valueOf(number),"drawable","org.vbm.iceandflame" ));
+        gotImage.setAlpha(60);
         linearlayout.setBackground(gotImage);
         linearlayout.setDrawingCacheEnabled(false);
-        gotImage = null;*/
+        gotImage = null;
         int id = getIntent().getIntExtra(KEY,0);
         if( id == 0 ){
             Toast.makeText(this,"No character id passed - contact developer!",Toast.LENGTH_SHORT).show();
